@@ -1,216 +1,233 @@
 ﻿namespace Linqs
 {
+    /// <summary>
+    /// Represents information about a company.
+    /// </summary>
     public class Company
     {
+        /// <summary>
+        /// The name of the company.
+        /// </summary>
         public required string Name { get; set; }
-        public DateTime FoundationDate { get; set; }
+
+        /// <summary>
+        /// The date the company was founded.
+        /// </summary>
+        public DateTime DateOfFoundation { get; set; }
+
+        /// <summary>
+        /// The business profile of the company (e.g., marketing, IT).
+        /// </summary>
         public required string BusinessProfile { get; set; }
+
+        /// <summary>
+        /// The full name of the director of the company.
+        /// </summary>
         public required string DirectorFullName { get; set; }
+
+        /// <summary>
+        /// The number of employees in the company.
+        /// </summary>
         public int NumberOfEmployees { get; set; }
+
+        /// <summary>
+        /// The address of the company.
+        /// </summary>
         public required string Address { get; set; }
     }
 
-    public static class CompanyQueries
+    /// <summary>
+    /// Provides queries to retrieve information about companies.
+    /// </summary>
+    public class CompanyQueries
     {
+        private List<Company> companies;
+
         /// <summary>
-        /// Get information about all companies.
+        /// Initializes a new instance of the <see cref="CompanyQueries"/> class.
         /// </summary>
-        /// <param name="companies">Array of companies</param>
-        /// <returns>Array of companies</returns>
-        public static Company[] GetAllCompanies(Company[] companies)
+        /// <param name="companies">The list of companies to perform queries on.</param>
+        public CompanyQueries(List<Company> companies)
+        {
+            this.companies = companies;
+        }
+
+        /// <summary>
+        /// Retrieves information about all companies.
+        /// </summary>
+        /// <returns>A list of all companies.</returns>
+        public List<Company> GetAllCompanies()
         {
             return companies;
         }
 
         /// <summary>
-        /// Get the company list have the word "Food" in their titles.
+        /// Retrieves a list of companies with a specified keyword in their titles.
         /// </summary>
-        /// <param name="companies">Array of companies</param>
-        /// <returns>Array of companies with "Food" in their titles</returns>
-        public static Company[] GetCompaniesWithFoodInTitle(Company[] companies)
+        /// <param name="keyword">The keyword to search for in company titles.</param>
+        /// <returns>A list of companies matching the specified keyword.</returns>
+        public List<Company> GetCompaniesWithKeywordInTitle(string keyword)
         {
-            return companies.Where(c => c.Name.Contains("Food")).ToArray();
+            return companies.Where(c => c.Name.Contains(keyword)).ToList();
         }
 
         /// <summary>
-        /// Get the company list that work in marketing.
+        /// Retrieves a list of companies in the marketing field.
         /// </summary>
-        /// <param name="companies">Array of companies</param>
-        /// <returns>Array of companies working in marketing</returns>
-        public static Company[] GetMarketingCompanies(Company[] companies)
+        /// <returns>A list of companies in the marketing field.</returns>
+        public List<Company> GetCompaniesInMarketing()
         {
-            return companies.Where(company => company.BusinessProfile.ToLower() == "marketing").ToArray();
+            return companies.Where(c => c.BusinessProfile.ToLower() == "marketing").ToList();
         }
 
         /// <summary>
-        /// Get the company list that work in marketing or IT.
+        /// Retrieves a list of companies in marketing or IT fields.
         /// </summary>
-        /// <param name="companies">Array of companies</param>
-        /// <returns>Array of companies working in marketing or IT</returns>
-        public static Company[] GetMarketingOrITCompanies(Company[] companies)
+        /// <returns>A list of companies in marketing or IT fields.</returns>
+        public List<Company> GetCompaniesInMarketingOrIT()
         {
-            return companies.Where(company => company.BusinessProfile.ToLower() == "marketing" || company.BusinessProfile.ToLower() == "it").ToArray();
+            return companies.Where(c => c.BusinessProfile.ToLower() == "marketing" || c.BusinessProfile.ToLower() == "it").ToList();
         }
 
         /// <summary>
-        /// Get the company list with more than 100 employees.
+        /// Retrieves a list of companies with more than 100 employees.
         /// </summary>
-        /// <param name="companies">Array of companies</param>
-        /// <returns>Array of companies with more than 100 employees</returns>
-        public static Company[] GetCompaniesWithMoreThan100Employees(Company[] companies)
+        /// <returns>A list of companies with more than 100 employees.</returns>
+        public List<Company> GetCompaniesWithMoreThan100Employees()
         {
-            return companies.Where(company => company.NumberOfEmployees > 100).ToArray();
+            return companies.Where(c => c.NumberOfEmployees > 100).ToList();
         }
 
         /// <summary>
-        /// Get the company list with 100 to 300 employees.
+        /// Retrieves a list of companies with a specified range of employees.
         /// </summary>
-        /// <param name="companies">Array of companies</param>
-        /// <returns>Array of companies with 100 to 300 employees</returns>
-        public static Company[] GetCompaniesWith100To300Employees(Company[] companies)
+        /// <param name="minEmployees">The minimum number of employees.</param>
+        /// <param name="maxEmployees">The maximum number of employees.</param>
+        /// <returns>A list of companies within the specified range of employees.</returns>
+        public List<Company> GetCompaniesWithEmployeesInRange(int minEmployees, int maxEmployees)
         {
-            return companies.Where(company => company.NumberOfEmployees >= 100 && company.NumberOfEmployees <= 300).ToArray();
+            return companies.Where(c => c.NumberOfEmployees >= minEmployees && c.NumberOfEmployees <= maxEmployees).ToList();
         }
 
         /// <summary>
-        /// Get the company list that are based in London.
+        /// Retrieves a list of companies based in a specified city.
         /// </summary>
-        /// <param name="companies">Array of companies</param>
-        /// <returns>Array of companies based in London</returns>
-        public static Company[] GetCompaniesBasedInLondon(Company[] companies)
+        /// <param name="city">The city to search for.</param>
+        /// <returns>A list of companies based in the specified city.</returns>
+        public List<Company> GetCompaniesBasedIn(string city)
         {
-            return companies.Where(company => company.Address.ToLower().Contains("london")).ToArray();
+            return companies.Where(c => c.Address.ToLower().Contains(city.ToLower())).ToList();
         }
 
         /// <summary>
-        /// Get the company list with a director's last name White.
+        /// Retrieves a list of companies with a specified director's last name.
         /// </summary>
-        /// <param name="companies">Array of companies</param>
-        /// <returns>Array of companies with a director's last name White</returns>
-        public static Company[] GetCompaniesWithDirectorLastNameWhite(Company[] companies)
+        /// <param name="lastName">The last name of the director.</param>
+        /// <returns>A list of companies with the specified director's last name.</returns>
+        public List<Company> GetCompaniesWithDirectorLastName(string lastName)
         {
-            return companies.Where(company => company.DirectorFullName.ToLower().Split(' ').Last() == "white").ToArray();
+            return companies.Where(c => c.DirectorFullName.Split(' ').Last().ToLower() == lastName.ToLower()).ToList();
         }
 
         /// <summary>
-        /// Get the company list that were founded more than two years ago.
+        /// Retrieves a list of companies founded more than a specified number of years ago.
         /// </summary>
-        /// <param name="companies">Array of companies</param>
-        /// <returns>Array of companies founded more than two years ago</returns>
-        public static Company[] GetCompaniesFoundedMoreThanTwoYearsAgo(Company[] companies)
+        /// <param name="years">The number of years.</param>
+        /// <returns>A list of companies founded more than the specified number of years ago.</returns>
+        public List<Company> GetCompaniesFoundedMoreThanYearsAgo(int years)
         {
-            return companies.Where(company => (DateTime.Now - company.FoundationDate).TotalDays > 365 * 2).ToArray();
+            DateTime thresholdDate = DateTime.Now.AddYears(-years);
+            return companies.Where(c => c.DateOfFoundation < thresholdDate).ToList();
         }
 
         /// <summary>
-        /// Get the company list that have been 123 days old since they were founded.
+        /// Retrieves a list of companies founded a specified number of days ago.
         /// </summary>
-        /// <param name="companies">Array of companies</param>
-        /// <returns>Array of companies that have been 123 days old since they were founded</returns>
-        public static Company[] GetCompanies123DaysOld(Company[] companies)
+        /// <param name="days">The number of days.</param>
+        /// <returns>A list of companies founded the specified number of days ago.</returns>
+        public List<Company> GetCompaniesFoundedDaysAgo(int days)
         {
-            return companies.Where(company => (DateTime.Now - company.FoundationDate).TotalDays == 123).ToArray();
+            DateTime thresholdDate = DateTime.Now.AddDays(-days);
+            return companies.Where(c => c.DateOfFoundation == thresholdDate).ToList();
         }
 
         /// <summary>
-        /// Get the company list that the director's last name is Smith and the company name contains the word "White".
+        /// Retrieves a list of companies with a director's last name and a specified keyword in their titles.
         /// </summary>
-        /// <param name="companies">Array of companies</param>
-        /// <returns>Array of companies meeting the conditions</returns>
-        public static Company[] GetCompaniesDirectorLastNameSmithAndNameContainsWhite(Company[] companies)
+        /// <param name="lastName">The last name of the director.</param>
+        /// <param name="keyword">The keyword to search for in company titles.</param>
+        /// <returns>A list of companies matching the specified director's last name and keyword.</returns>
+        public List<Company> GetCompaniesWithDirectorLastNameAndKeywordInTitle(string lastName, string keyword)
         {
-            return companies.Where(company => company.DirectorFullName.ToLower().Split(' ').Last() == "smith" && company.Name.ToLower().Contains("white")).ToArray();
+            return companies.Where(c => c.DirectorFullName.Split(' ').Last().ToLower() == lastName.ToLower() && c.Name.Contains(keyword)).ToList();
         }
     }
 
-    public class Program
+    /// <summary>
+    /// Main program class containing the entry point.
+    /// </summary>
+    class Program
     {
-        static void Main()
+        /// <summary>
+        /// The entry point of the program.
+        /// </summary>
+        /// <param name="args">The command-line arguments.</param>
+        static void Main(string[] args)
         {
-            Company[] companies = {
-            new Company { Name = "White Foods Ltd", FoundationDate = new DateTime(2010, 5, 15), BusinessProfile = "Food", DirectorFullName = "John White", NumberOfEmployees = 120, Address = "London" },
-            new Company { Name = "Black IT Solutions", FoundationDate = new DateTime(2015, 8, 20), BusinessProfile = "IT", DirectorFullName = "Alice Black", NumberOfEmployees = 250, Address = "Manchester" },
-            new Company { Name = "Red Marketing Agency", FoundationDate = new DateTime(2005, 3, 10), BusinessProfile = "Marketing", DirectorFullName = "Robert Red", NumberOfEmployees = 80, Address = "London" },
-            new Company { Name = "Blue Logistics", FoundationDate = new DateTime(2018, 12, 5), BusinessProfile = "Logistics", DirectorFullName = "Michael Blue", NumberOfEmployees = 180, Address = "Birmingham" },
-            new Company { Name = "Green Technologies", FoundationDate = new DateTime(2012, 10, 30), BusinessProfile = "IT", DirectorFullName = "Sarah Green", NumberOfEmployees = 300, Address = "London" }
-            };
+            // Sample data
+            List<Company> companies = new List<Company>
+        {
+            new Company { Name = "ABC Marketing", DateOfFoundation = new DateTime(2000, 1, 1), BusinessProfile = "Marketing", DirectorFullName = "John White", NumberOfEmployees = 150, Address = "London, UK" },
+            new Company { Name = "XYZ Tech", DateOfFoundation = new DateTime(2015, 5, 10), BusinessProfile = "IT", DirectorFullName = "Alice Smith", NumberOfEmployees = 200, Address = "New York, USA" },
+            new Company { Name = "Foodies Inc", DateOfFoundation = new DateTime(1995, 9, 20), BusinessProfile = "Food", DirectorFullName = "Bob White", NumberOfEmployees = 80, Address = "Paris, France" }
+        };
 
-            Company[] allCompanies = CompanyQueries.GetAllCompanies(companies);
-            Company[] companiesWithFoodInTitle = CompanyQueries.GetCompaniesWithFoodInTitle(companies);
-            Company[] marketingCompanies = CompanyQueries.GetMarketingCompanies(companies);
-            Company[] marketingOrITCompanies = CompanyQueries.GetMarketingOrITCompanies(companies);
-            Company[] companiesWithMoreThan100Employees = CompanyQueries.GetCompaniesWithMoreThan100Employees(companies);
-            Company[] companiesWith100To300Employees = CompanyQueries.GetCompaniesWith100To300Employees(companies);
-            Company[] companiesBasedInLondon = CompanyQueries.GetCompaniesBasedInLondon(companies);
-            Company[] companiesWithDirectorLastNameWhite = CompanyQueries.GetCompaniesWithDirectorLastNameWhite(companies);
-            Company[] companiesFoundedMoreThanTwoYearsAgo = CompanyQueries.GetCompaniesFoundedMoreThanTwoYearsAgo(companies);
-            Company[] companies123DaysOld = CompanyQueries.GetCompanies123DaysOld(companies);
-            Company[] companiesDirectorLastNameSmithAndNameContainsWhite = CompanyQueries.GetCompaniesDirectorLastNameSmithAndNameContainsWhite(companies);
+            CompanyQueries queries = new CompanyQueries(companies);
 
+            // Test queries
             Console.WriteLine("All companies:");
-            foreach (var company in allCompanies)
-            {
-                Console.WriteLine(company.Name);
-            }
+            PrintCompanies(queries.GetAllCompanies());
 
-            Console.WriteLine("\nCompanies with 'Food' in their titles:");
-            foreach (var company in companiesWithFoodInTitle)
-            {
-                Console.WriteLine(company.Name);
-            }
+            Console.WriteLine("\nCompanies with 'Food' in title:");
+            PrintCompanies(queries.GetCompaniesWithKeywordInTitle("Food"));
 
-            Console.WriteLine("\nMarketing companies:");
-            foreach (var company in marketingCompanies)
-            {
-                Console.WriteLine(company.Name);
-            }
+            Console.WriteLine("\nCompanies in marketing:");
+            PrintCompanies(queries.GetCompaniesInMarketing());
 
-            Console.WriteLine("\nMarketing or IT companies:");
-            foreach (var company in marketingOrITCompanies)
-            {
-                Console.WriteLine(company.Name);
-            }
+            Console.WriteLine("\nCompanies in marketing or IT:");
+            PrintCompanies(queries.GetCompaniesInMarketingOrIT());
 
             Console.WriteLine("\nCompanies with more than 100 employees:");
-            foreach (var company in companiesWithMoreThan100Employees)
-            {
-                Console.WriteLine(company.Name);
-            }
+            PrintCompanies(queries.GetCompaniesWithMoreThan100Employees());
 
             Console.WriteLine("\nCompanies with 100 to 300 employees:");
-            foreach (var company in companiesWith100To300Employees)
-            {
-                Console.WriteLine(company.Name);
-            }
+            PrintCompanies(queries.GetCompaniesWithEmployeesInRange(100, 300));
 
             Console.WriteLine("\nCompanies based in London:");
-            foreach (var company in companiesBasedInLondon)
-            {
-                Console.WriteLine(company.Name);
-            }
+            PrintCompanies(queries.GetCompaniesBasedIn("London"));
 
-            Console.WriteLine("\nCompanies with a director's last name White:");
-            foreach (var company in companiesWithDirectorLastNameWhite)
-            {
-                Console.WriteLine(company.Name);
-            }
+            Console.WriteLine("\nCompanies with director's last name 'White':");
+            PrintCompanies(queries.GetCompaniesWithDirectorLastName("White"));
 
-            Console.WriteLine("\nCompanies founded more than two years ago:");
-            foreach (var company in companiesFoundedMoreThanTwoYearsAgo)
-            {
-                Console.WriteLine(company.Name);
-            }
+            Console.WriteLine("\nCompanies founded more than 2 years ago:");
+            PrintCompanies(queries.GetCompaniesFoundedMoreThanYearsAgo(2));
 
-            Console.WriteLine("\nCompanies that have been 123 days old since they were founded:");
-            foreach (var company in companies123DaysOld)
-            {
-                Console.WriteLine(company.Name);
-            }
+            Console.WriteLine("\nCompanies founded 123 days ago:");
+            PrintCompanies(queries.GetCompaniesFoundedDaysAgo(123));
 
-            Console.WriteLine("\nCompanies that the director's last name is Smith and the company name contains the word 'White':");
-            foreach (var company in companiesDirectorLastNameSmithAndNameContainsWhite)
+            Console.WriteLine("\nCompanies with director's last name 'Smith' and name containing 'White':");
+            PrintCompanies(queries.GetCompaniesWithDirectorLastNameAndKeywordInTitle("Smith", "White"));
+        }
+
+        /// <summary>
+        /// Prints a list of companies to the console.
+        /// </summary>
+        /// <param name="companies">The list of companies to print.</param>
+        static void PrintCompanies(List<Company> companies)
+        {
+            foreach (var company in companies)
             {
-                Console.WriteLine(company.Name);
+                Console.WriteLine($"Name: {company.Name}, Director: {company.DirectorFullName}, Employees: {company.NumberOfEmployees}, Founded: {company.DateOfFoundation}, Address: {company.Address}");
             }
         }
     }
